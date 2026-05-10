@@ -15,7 +15,6 @@ async function start() {
       console.log(`🚀 Server running on port ${PORT}`)
     })
 
-    // graceful shutdown
     process.on('SIGTERM', () => {
       console.log('SIGTERM received, shutting down gracefully')
       server.close(async () => {

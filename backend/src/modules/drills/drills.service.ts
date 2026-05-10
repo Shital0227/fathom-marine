@@ -94,7 +94,6 @@ export async function createDrill(data: {
   try {
     await client.query('BEGIN')
 
-    // create the drill
     const drill = await client.query(
       `INSERT INTO safety_drills
         (title, drill_type, ship_id, scheduled_date, created_by)
@@ -102,8 +101,6 @@ export async function createDrill(data: {
        RETURNING *`,
       [data.title, data.drillType, data.shipId, data.scheduledDate, data.createdBy]
     )
-
-    // auto assign attendance records for all active crew on this ship
     const crew = await client.query(
       `SELECT user_id FROM ship_crew 
        WHERE ship_id = $1 AND is_active = true`,
@@ -169,7 +166,6 @@ export async function updateDrillStatus(id: string, status: string) {
 }
 
 export async function markMissedDrills() {
-  // called by a cron job — marks past scheduled drills as missed
   const result = await pool.query(
     `UPDATE safety_drills
      SET status = 'missed'

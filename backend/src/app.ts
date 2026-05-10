@@ -4,6 +4,8 @@ import helmet from 'helmet'
 import { errorMiddleware } from './middleware/error.middleware'
 import authRoutes from './modules/auth/auth.routes'
 import maintenanceRoutes from './modules/maintenance/maintenance.routes'
+import complianceRoutes from './modules/compliance/compliance.routes'
+import drillsRoutes from './modules/drills/drills.routes'
 
 const app = express()
 
@@ -20,6 +22,8 @@ app.get('/health', (req, res) => {
 
 app.use('/api/auth', authRoutes)
 app.use('/api/maintenance', maintenanceRoutes)
+app.use('/api/drills', drillsRoutes)
+app.use('/api/compliance', complianceRoutes)
 
 app.use(errorMiddleware)
 

@@ -17,7 +17,6 @@ import {
 
 const router = Router()
 
-// all maintenance routes require authentication
 router.use(authenticate)
 
 router.get('/', getTasks)

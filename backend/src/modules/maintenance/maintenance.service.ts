@@ -37,7 +37,6 @@ export async function getAllTasks(filters: {
   const params: any[] = []
   let paramCount = 1
 
-  // crew only sees their own tasks
   if (filters.role === 'crew') {
     query += ` AND mt.assigned_to = $${paramCount++}`
     params.push(filters.userId)
@@ -133,7 +132,6 @@ export async function updateTaskStatus(
   userId: string,
   role: string
 ) {
-  // crew can only update their own tasks
   if (role === 'crew') {
     const task = await pool.query(
       'SELECT assigned_to FROM maintenance_tasks WHERE id = $1',
@@ -164,7 +162,6 @@ export async function addComment(
   userId: string,
   comment: string
 ) {
-  // verify task exists
   const task = await pool.query(
     'SELECT id FROM maintenance_tasks WHERE id = $1',
     [taskId]

@@ -4,7 +4,7 @@ export const sendSuccess = (
   res: Response,
   data: any,
   statusCode: number = 200,
-  meta?: Record<string, any>  // for pagination later
+  meta?: Record<string, any>  
 ) => {
   const response: Record<string, any> = {
     success: true,
