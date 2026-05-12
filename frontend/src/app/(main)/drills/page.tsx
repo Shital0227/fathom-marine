@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Plus, Flame, AlertTriangle, Users, LogOut, Heart, Eye, Check, X } from 'lucide-react'
+import { Plus, Flame, AlertTriangle, Users, LogOut, Heart, Eye, Check, X, LucideIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import {
@@ -35,7 +35,7 @@ interface Ship {
   registration_number: string
 }
 
-const DRILL_TYPES: Record<string, { label: string; icon: any }> = {
+const DRILL_TYPES: Record<string, { label: string; icon: LucideIcon }> = {
   fire: { label: 'Fire Drill', icon: Flame },
   evacuation: { label: 'Evacuation', icon: AlertTriangle },
   man_overboard: { label: 'Man Overboard', icon: Users },
@@ -311,20 +311,29 @@ export default function DrillsPage() {
   const [scheduleDrillOpen, setScheduleDrillOpen] = useState(false)
   const [selectedDrillId, setSelectedDrillId] = useState<string | null>(null)
 
- const fetchDrills = async () => {
-  try {
-    const res = await api.get('/drills')
-    setDrills(res.data.data.drills)
-  } catch {
-    toast.error('Failed to load drills')
-  } finally {
-    setLoading(false)
-  }
-}
+ useEffect(() => {
+    const fetchDrills = async () => {
+      try {
+        const res = await api.get('/drills')
+        setDrills(res.data.data.drills)
+      } catch {
+        toast.error('Failed to load drills')
+      } finally {
+        setLoading(false)
+      }
+    }
 
-  useEffect(() => {
+    const fetchShips = async () => {
+      try {
+        const res = await api.get('/ships')
+        setShips(res.data.data.ships)
+      } catch {
+        // Silent fail for ships
+      }
+    }
+
     fetchDrills()
-    api.get('/ships').then(res => setShips(res.data.data.ships)).catch(() => {})
+    fetchShips()
   }, [])
 
   const totalDrills = drills.length

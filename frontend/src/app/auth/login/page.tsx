@@ -23,12 +23,9 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      console.log("trying to sign in")
       const response = await api.post('/auth/login', { email, password })
 
       const { user, token } = response.data.data
-      console.log(response,"sogn in ");
-      
       storeAuth(user, token)
       toast.success('Logged in successfully')
       router.push('/dashboard')

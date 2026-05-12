@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { CheckCircle, Clock, Flame, AlertTriangle, Users, LogOut, Heart } from 'lucide-react'
+import { CheckCircle, Clock, Flame, AlertTriangle, Users, LogOut, Heart, LucideIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import api from '@/lib/api'
 import { useUser } from '@/contexts/userContext'
@@ -24,7 +24,7 @@ interface Drill {
   status: 'scheduled' | 'completed' | 'missed'
 }
 
-const DRILL_ICONS: Record<string, any> = {
+const DRILL_ICONS: Record<string, LucideIcon> = {
   fire: Flame,
   evacuation: AlertTriangle,
   man_overboard: Users,
