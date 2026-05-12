@@ -79,29 +79,32 @@ export default function CompliancePage() {
   )
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-[#f1f5f9]">Compliance Overview</h1>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold text-[#f1f5f9]">Compliance Overview</h1>
+        <p className="text-[#94a3b8] mt-2 text-sm">Monitor fleet compliance status across all ships</p>
+      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6">
-          <p className="text-[#94a3b8] text-sm font-medium">Overall Compliance</p>
-          <p className="text-5xl font-bold mt-3" style={{ color: getPctColor(overallAvg) }}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6 hover:border-[#3b82f6]/50 transition-colors">
+          <p className="text-[#94a3b8] text-xs font-semibold uppercase tracking-wide">Overall Compliance</p>
+          <p className="text-5xl font-bold mt-4" style={{ color: getPctColor(overallAvg) }}>
             {overallAvg}%
           </p>
         </div>
-        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6">
-          <p className="text-[#94a3b8] text-sm font-medium">Overdue Maintenance</p>
-          <p className="text-5xl font-bold text-[#ef4444] mt-3">{totalOverdue}</p>
+        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6 hover:border-[#ef4444]/50 transition-colors">
+          <p className="text-[#94a3b8] text-xs font-semibold uppercase tracking-wide">Overdue Maintenance</p>
+          <p className="text-5xl font-bold text-[#ef4444] mt-4">{totalOverdue}</p>
         </div>
-        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6">
-          <p className="text-[#94a3b8] text-sm font-medium">Missed Drills</p>
-          <p className="text-5xl font-bold text-[#ef4444] mt-3">{totalMissed}</p>
+        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6 hover:border-[#ef4444]/50 transition-colors">
+          <p className="text-[#94a3b8] text-xs font-semibold uppercase tracking-wide">Missed Drills</p>
+          <p className="text-5xl font-bold text-[#ef4444] mt-4">{totalMissed}</p>
         </div>
       </div>
 
       {chartData.length > 0 && (
-        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-[#f1f5f9] mb-6">Fleet Compliance Breakdown</h2>
+        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6 hover:border-[#1e2d4a] transition-colors">
+          <h2 className="text-lg font-bold text-[#f1f5f9] mb-6">Fleet Compliance Breakdown</h2>
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e2d4a" />

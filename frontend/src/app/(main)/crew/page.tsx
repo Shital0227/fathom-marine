@@ -96,21 +96,21 @@ export default function CrewPage() {
   )
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-[#f1f5f9]">
             Welcome, {user?.name || 'Crew Member'}
           </h1>
-          <p className="text-[#94a3b8] mt-1 capitalize">{user?.role}</p>
+          <p className="text-[#94a3b8] mt-2 text-sm capitalize">Track your assigned tasks and drills</p>
         </div>
-        <span className="bg-[#1e3a8a] text-white px-4 py-2 rounded-full text-sm font-semibold capitalize">
+        <span className="bg-[#3b82f6] text-white px-4 py-2 rounded-lg text-sm font-semibold capitalize">
           {user?.role}
         </span>
       </div>
 
       <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-8">
-        <p className="text-[#94a3b8] text-sm font-medium">Personal Compliance Score</p>
+        <p className="text-[#94a3b8] text-xs font-semibold uppercase tracking-wide">Personal Compliance Score</p>
         <div className="flex items-center gap-4 mt-4">
           <p className="text-7xl font-bold" style={{ color: scoreColor }}>
             {complianceScore}%
@@ -122,9 +122,9 @@ export default function CrewPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-[#f1f5f9] mb-4">My Tasks</h2>
+          <h2 className="text-lg font-bold text-[#f1f5f9] mb-6">My Tasks</h2>
           <div className="space-y-3">
             {tasks.length === 0 && (
               <p className="text-[#94a3b8] text-sm text-center py-4">No tasks assigned</p>

@@ -22,11 +22,18 @@ export default function RootLayout({
          <Toaster 
           position="top-right"
           theme="dark"
+          richColors
           toastOptions={{
             style: {
               background: '#0f1729',
               border: '1px solid #1e2d4a',
-              color: '#f1f5f9'
+              color: '#f1f5f9',
+              borderRadius: '8px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
+              padding: '12px 16px'
+            },
+            classNames: {
+              toast: 'transition-all duration-300',
             }
           }}
         />

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { Plus, Flame, AlertTriangle, Users, LogOut, Heart, Eye, Check, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select'
@@ -53,7 +52,7 @@ function getStatusColor(status: string): string {
   }
 }
 
-function DrillDetailSheet({
+function DrillDetailModal({
   drillId, open, onOpenChange, onAttendanceUpdate
 }: {
   drillId: string | null
@@ -64,6 +63,7 @@ function DrillDetailSheet({
   const [drill, setDrill] = useState<any>(null)
   const [attendance, setAttendance] = useState<AttendanceMember[]>([])
   const [loading, setLoading] = useState(false)
+  const [attendanceOpen, setAttendanceOpen] = useState(true)
 
   useEffect(() => {
     if (!drillId || !open) return
@@ -97,69 +97,80 @@ const handleToggleAttendance = async (userId: string, currentAttended: boolean) 
   const attendedCount = attendance.filter(a => a.attended).length
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:w-96 bg-[#0f1729] border-l border-[#1e2d4a] overflow-y-auto">
-        <SheetHeader className="border-b border-[#1e2d4a] pb-4">
-          <SheetTitle className="text-[#f1f5f9]">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-[#0f1729] border border-[#1e2d4a] max-w-2xl">
+        <DialogHeader>
+          <DialogTitle className="text-[#f1f5f9]">
             {loading ? 'Loading...' : drill?.title}
-          </SheetTitle>
-        </SheetHeader>
+          </DialogTitle>
+        </DialogHeader>
 
         {!loading && drill && (
-          <div className="mt-6 space-y-6">
+          <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-4">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="bg-[#1e2d4a] p-3 rounded-lg">
                   <DrillIcon className="w-5 h-5 text-[#3b82f6]" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-[#94a3b8] uppercase">Drill Type</p>
-                  <p className="text-[#f1f5f9]">{DRILL_TYPES[drill.drill_type]?.label}</p>
+                  <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Drill Type</p>
+                  <p className="text-[#f1f5f9] font-medium mt-0.5">{DRILL_TYPES[drill.drill_type]?.label}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Ship</p>
+                  <p className="text-[#f1f5f9] mt-1">{drill.ship_name}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Scheduled</p>
+                  <p className="text-[#f1f5f9] mt-1">{new Date(drill.scheduled_date).toLocaleString()}</p>
                 </div>
               </div>
               <div>
-                <p className="text-xs font-semibold text-[#94a3b8] uppercase">Ship</p>
-                <p className="text-[#f1f5f9] mt-1">{drill.ship_name}</p>
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-[#94a3b8] uppercase">Scheduled</p>
-                <p className="text-[#f1f5f9] mt-1">
-                  {new Date(drill.scheduled_date).toLocaleString()}
-                </p>
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-[#94a3b8] uppercase">Status</p>
-                <span className={`mt-1 inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(drill.status)}`}>
+                <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Status</p>
+                <span className={`mt-2 inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(drill.status)}`}>
                   {drill.status}
                 </span>
               </div>
             </div>
 
-            <div className="border-t border-[#1e2d4a] pt-4">
-              <h3 className="text-sm font-semibold text-[#f1f5f9] mb-3">
-                Attendance ({attendedCount}/{attendance.length})
-              </h3>
-              <div className="space-y-2 max-h-64 overflow-y-auto">
-                {attendance.map((person) => (
-                  <div key={person.id} className="flex items-center justify-between bg-[#0a0f1e] rounded-lg p-3">
-                    <p className="text-sm text-[#f1f5f9]">{person.crew_name}</p>
-                    <button onClick={() => handleToggleAttendance(person.user_id, person.attended)}>
-                      {person.attended
-                        ? <Check className="w-5 h-5 text-[#10b981]" />
-                        : <X className="w-5 h-5 text-[#ef4444]" />
-                      }
-                    </button>
+            <div className="border-t border-[#1e2d4a]">
+              <button
+                onClick={() => setAttendanceOpen(!attendanceOpen)}
+                className="w-full flex items-center justify-between py-4 hover:bg-[#0a0f1e]/50 transition rounded-lg px-2"
+              >
+                <h3 className="text-sm font-semibold text-[#f1f5f9]">
+                  Attendance ({attendedCount}/{attendance.length})
+                </h3>
+                <span className="text-[#94a3b8] text-xs">{attendanceOpen ? '▼' : '▶'}</span>
+              </button>
+
+              {attendanceOpen && (
+                <div className="space-y-2 pl-2 pb-2">
+                  <div className="space-y-2 max-h-64 overflow-y-auto">
+                    {attendance.map((person) => (
+                      <div key={person.id} className="flex items-center justify-between bg-[#0a0f1e] rounded-lg p-3 hover:border-[#1e2d4a] border border-transparent transition">
+                        <p className="text-sm text-[#f1f5f9]">{person.crew_name}</p>
+                        <button onClick={() => handleToggleAttendance(person.user_id, person.attended)} className="transition-colors hover:text-[#3b82f6]">
+                          {person.attended
+                            ? <Check className="w-5 h-5 text-[#10b981]" />
+                            : <X className="w-5 h-5 text-[#ef4444]" />
+                          }
+                        </button>
+                      </div>
+                    ))}
+                    {attendance.length === 0 && (
+                      <p className="text-sm text-[#94a3b8] text-center py-4">No crew assigned</p>
+                    )}
                   </div>
-                ))}
-                {attendance.length === 0 && (
-                  <p className="text-sm text-[#94a3b8] text-center py-4">No crew assigned</p>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         )}
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   )
 }
 
@@ -322,44 +333,47 @@ export default function DrillsPage() {
   const completionRate = totalDrills > 0 ? Math.round((completedDrills / totalDrills) * 100) : 0
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-[#f1f5f9]">Safety Drills</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-[#f1f5f9]">Safety Drills</h1>
+          <p className="text-[#94a3b8] mt-2 text-sm">Schedule and track emergency response drills across your fleet</p>
+        </div>
         <Button
           onClick={() => setScheduleDrillOpen(true)}
-          className="bg-[#3b82f6] hover:bg-[#1e3a8a] text-white flex items-center gap-2"
+          className="bg-[#3b82f6] hover:bg-[#1e3a8a] text-white flex items-center gap-2 whitespace-nowrap"
         >
           <Plus className="w-4 h-4" />
           Schedule Drill
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6">
-          <p className="text-[#94a3b8] text-sm font-medium">Total Drills</p>
-          <p className="text-4xl font-bold text-[#f1f5f9] mt-2">{totalDrills}</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6 hover:border-[#3b82f6]/50 transition-colors">
+          <p className="text-[#94a3b8] text-xs font-semibold uppercase tracking-wide">Total Drills</p>
+          <p className="text-4xl font-bold text-[#f1f5f9] mt-4">{totalDrills}</p>
         </div>
-        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6">
-          <p className="text-[#94a3b8] text-sm font-medium">Upcoming</p>
-          <p className="text-4xl font-bold text-[#f1f5f9] mt-2">{upcomingDrills}</p>
+        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6 hover:border-[#3b82f6]/50 transition-colors">
+          <p className="text-[#94a3b8] text-xs font-semibold uppercase tracking-wide">Upcoming</p>
+          <p className="text-4xl font-bold text-[#3b82f6] mt-4">{upcomingDrills}</p>
         </div>
-        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6">
-          <p className="text-[#94a3b8] text-sm font-medium">Completion Rate</p>
-          <p className="text-4xl font-bold text-[#10b981] mt-2">{completionRate}%</p>
+        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6 hover:border-[#10b981]/50 transition-colors">
+          <p className="text-[#94a3b8] text-xs font-semibold uppercase tracking-wide">Completion Rate</p>
+          <p className="text-4xl font-bold text-[#10b981] mt-4">{completionRate}%</p>
         </div>
       </div>
 
       {loading ? (
         <div className="text-center py-8 text-[#94a3b8]">Loading...</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {drills.map((drill) => {
             const DrillIcon = DRILL_TYPES[drill.drill_type]?.icon || Flame
             return (
-              <div key={drill.id} className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-5 space-y-4 hover:border-[#3b82f6]/50 transition">
+              <div key={drill.id} className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6 space-y-4 hover:border-[#3b82f6]/50 transition-all duration-200 cursor-pointer group">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3 flex-1">
-                    <div className="bg-[#1e2d4a] p-2 rounded-lg">
+                    <div className="bg-[#1e2d4a] group-hover:bg-[#3b82f6]/20 p-2.5 rounded-lg transition-colors">
                       <DrillIcon className="w-5 h-5 text-[#3b82f6]" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -367,12 +381,12 @@ export default function DrillsPage() {
                       <p className="text-xs text-[#94a3b8] mt-1">{drill.ship_name}</p>
                     </div>
                   </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ml-2 ${getStatusColor(drill.status)}`}>
+                  <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ml-2 flex-shrink-0 ${getStatusColor(drill.status)}`}>
                     {drill.status}
                   </span>
                 </div>
 
-                <div className="border-t border-[#1e2d4a] pt-3 space-y-2">
+                <div className="border-t border-[#1e2d4a] pt-4 space-y-3">
                   <p className="text-xs text-[#94a3b8]">
                     {new Date(drill.scheduled_date).toLocaleString()}
                   </p>
@@ -380,13 +394,12 @@ export default function DrillsPage() {
                     {drill.attended_count}/{drill.total_crew} attended
                   </p>
                   <Button
-                    variant="ghost"
                     size="sm"
                     onClick={() => setSelectedDrillId(drill.id)}
-                    className="w-full text-[#3b82f6] hover:bg-[#1e2d4a] text-xs"
+                    className="w-full bg-[#3b82f6] hover:bg-[#1e3a8a] text-white text-xs transition-colors"
                   >
                     <Eye className="w-3 h-3 mr-2" />
-                    View
+                    View Details
                   </Button>
                 </div>
               </div>
@@ -406,7 +419,7 @@ export default function DrillsPage() {
         ships={ships}
         onDrillCreated={fetchDrills}
       />
-      <DrillDetailSheet
+      <DrillDetailModal
         drillId={selectedDrillId}
         open={!!selectedDrillId}
         onOpenChange={(open) => !open && setSelectedDrillId(null)}

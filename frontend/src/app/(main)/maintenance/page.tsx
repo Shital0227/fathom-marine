@@ -415,13 +415,15 @@ const fetchShips = async () => {
   }, [selectedShip, selectedStatus, dateRange])
 
   return (
-    <div className="space-y-6">
-      {/* Top Bar */}
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-[#f1f5f9]">Maintenance Tasks</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-[#f1f5f9]">Maintenance Tasks</h1>
+          <p className="text-[#94a3b8] mt-2 text-sm">Manage vessel maintenance schedules and track task progress</p>
+        </div>
         <Button
           onClick={() => setAddTaskOpen(true)}
-          className="bg-[#3b82f6] hover:bg-[#1e3a8a] text-white flex items-center gap-2"
+          className="bg-[#3b82f6] hover:bg-[#1e3a8a] text-white flex items-center gap-2 whitespace-nowrap"
         >
           <Plus className="w-4 h-4" />
           Add Task
@@ -429,7 +431,7 @@ const fetchShips = async () => {
       </div>
 
       {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-4">
         <Select value={selectedShip} onValueChange={setSelectedShip}>
           <SelectTrigger className="bg-[#0f1729] border border-[#1e2d4a] text-[#f1f5f9]">
             <SelectValue placeholder="All Ships" />
@@ -503,7 +505,7 @@ const fetchShips = async () => {
               tasks.map((task) => (
                 <tr
                   key={task.id}
-                  className="border-b border-[#1e2d4a] last:border-b-0 hover:bg-[#0f1729]/50 transition"
+                  className="border-b border-[#1e2d4a] last:border-b-0 hover:bg-[#0a0f1e] transition-colors duration-200 cursor-pointer"
                 >
                   <td className="px-6 py-4 text-[#f1f5f9] font-medium">{task.title}</td>
                   <td className="px-6 py-4 text-[#94a3b8]">{task.ship_name}</td>
