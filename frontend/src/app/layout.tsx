@@ -16,20 +16,20 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="bg-[#0a0f1e]">
-      <body className={`${geist.className} antialiased bg-[#0a0f1e] text-[#f1f5f9]`}>
+    <html lang="en" className="bg-[#f8fafc]">
+      <body className={`${geist.className} antialiased bg-[#f8fafc] text-[#1e293b]`}>
         {children}
          <Toaster 
           position="top-right"
-          theme="dark"
+          theme="light"
           richColors
           toastOptions={{
             style: {
-              background: '#0f1729',
-              border: '1px solid #1e2d4a',
-              color: '#f1f5f9',
+              background: '#ffffff',
+              border: '1px solid #e2e8f0',
+              color: '#1e293b',
               borderRadius: '8px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
               padding: '12px 16px'
             },
             classNames: {
