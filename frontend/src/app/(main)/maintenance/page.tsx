@@ -1,10 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Plus, Eye, MessageCircle } from 'lucide-react'
+import { Plus, Eye, MessageCircle, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import {
   Select,
   SelectContent,
@@ -66,7 +65,7 @@ function getStatusLabel(status: string, isOverdue: boolean): string {
   }
 }
 
-function TaskDetailSheet({
+function TaskDetailModal({
   taskId,
   open,
   onOpenChange,
@@ -80,6 +79,7 @@ function TaskDetailSheet({
   const [newComment, setNewComment] = useState('')
   const [loading, setLoading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [commentsOpen, setCommentsOpen] = useState(false)
 
   useEffect(() => {
     if (!taskId || !open) return
@@ -119,91 +119,103 @@ const handleAddComment = async () => {
 }
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:w-96 bg-[#0f1729] border-l border-[#1e2d4a] overflow-y-auto">
-        <SheetHeader className="border-b border-[#1e2d4a] pb-4">
-          <SheetTitle className="text-[#f1f5f9]">
-            {loading ? 'Loading...' : task?.title}
-          </SheetTitle>
-        </SheetHeader>
+    <>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="bg-[#0f1729] border border-[#1e2d4a] max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-[#f1f5f9]">
+              {loading ? 'Loading...' : task?.title}
+            </DialogTitle>
+          </DialogHeader>
 
-        {!loading && task && (
-          <div className="mt-6 space-y-6">
-            <div className="space-y-4">
-              <div>
-                <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Description</p>
-                <p className="text-[#f1f5f9] mt-1">{task.description || 'No description'}</p>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
+          {!loading && task && (
+            <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-4">
+              <div className="space-y-4">
                 <div>
-                  <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Ship</p>
-                  <p className="text-[#f1f5f9] mt-1">{task.ship_name}</p>
+                  <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Description</p>
+                  <p className="text-[#f1f5f9] mt-1">{task.description || 'No description'}</p>
                 </div>
-                <div>
-                  <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Assigned To</p>
-                  <p className="text-[#f1f5f9] mt-1">{task.assigned_to_name || 'Unassigned'}</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Due Date</p>
-                  <p className="text-[#f1f5f9] mt-1">
-                    {new Date(task.due_date).toLocaleDateString()}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Status</p>
-                  <span className={`mt-1 inline-block px-2 py-1 rounded text-xs font-semibold ${getStatusColor(task.status, task.is_overdue)}`}>
-                    {getStatusLabel(task.status, task.is_overdue)}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Comments */}
-            <div className="border-t border-[#1e2d4a] pt-4">
-              <h3 className="text-sm font-semibold text-[#f1f5f9] mb-3 flex items-center gap-2">
-                <MessageCircle className="w-4 h-4" />
-                Comments
-              </h3>
-              <div className="space-y-3 mb-4 max-h-48 overflow-y-auto">
-                {comments.map((comment) => (
-                  <div key={comment.id} className="bg-[#0a0f1e] rounded-lg p-3">
-                    <div className="flex items-center justify-between mb-1">
-                      <p className="text-sm font-medium text-[#f1f5f9]">{comment.author_name}</p>
-                      <p className="text-xs text-[#94a3b8]">
-                        {new Date(comment.created_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <p className="text-sm text-[#94a3b8]">{comment.comment}</p>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Ship</p>
+                    <p className="text-[#f1f5f9] mt-1">{task.ship_name}</p>
                   </div>
-                ))}
-                {comments.length === 0 && (
-                  <p className="text-sm text-[#94a3b8] text-center py-4">No comments yet</p>
+                  <div>
+                    <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Assigned To</p>
+                    <p className="text-[#f1f5f9] mt-1">{task.assigned_to_name || 'Unassigned'}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Due Date</p>
+                    <p className="text-[#f1f5f9] mt-1">
+                      {new Date(task.due_date).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Status</p>
+                    <span className={`mt-1 inline-block px-2 py-1 rounded text-xs font-semibold ${getStatusColor(task.status, task.is_overdue)}`}>
+                      {getStatusLabel(task.status, task.is_overdue)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-[#1e2d4a]">
+                <button
+                  onClick={() => setCommentsOpen(!commentsOpen)}
+                  className="w-full flex items-center justify-between py-4 hover:bg-[#0a0f1e]/50 transition rounded-lg px-2"
+                >
+                  <h3 className="text-sm font-semibold text-[#f1f5f9] flex items-center gap-2">
+                    <MessageCircle className="w-4 h-4" />
+                    Comments ({comments.length})
+                  </h3>
+                  <span className="text-[#94a3b8] text-xs">{commentsOpen ? '▼' : '▶'}</span>
+                </button>
+
+                {commentsOpen && (
+                  <div className="space-y-3 mt-3 pl-2">
+                    <div className="space-y-3 mb-4 max-h-64 overflow-y-auto">
+                      {comments.map((comment) => (
+                        <div key={comment.id} className="bg-[#0a0f1e] rounded-lg p-3">
+                          <div className="flex items-center justify-between mb-1">
+                            <p className="text-sm font-medium text-[#f1f5f9]">{comment.author_name}</p>
+                            <p className="text-xs text-[#94a3b8]">
+                              {new Date(comment.created_at).toLocaleDateString()}
+                            </p>
+                          </div>
+                          <p className="text-sm text-[#94a3b8]">{comment.comment}</p>
+                        </div>
+                      ))}
+                      {comments.length === 0 && (
+                        <p className="text-sm text-[#94a3b8] text-center py-4">No comments yet</p>
+                      )}
+                    </div>
+                    <div className="space-y-2 border-t border-[#1e2d4a] pt-3">
+                      <textarea
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        placeholder="Add a comment..."
+                        className="w-full bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg p-2 text-sm text-[#f1f5f9] placeholder-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"
+                        rows={2}
+                      />
+                      <Button
+                        size="sm"
+                        className="w-full bg-[#3b82f6] hover:bg-[#1e3a8a] text-white"
+                        disabled={!newComment.trim() || submitting}
+                        onClick={handleAddComment}
+                      >
+                        {submitting ? 'Submitting...' : 'Submit Comment'}
+                      </Button>
+                    </div>
+                  </div>
                 )}
               </div>
-              <div className="space-y-2">
-                <textarea
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                  placeholder="Add a comment..."
-                  className="w-full bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg p-2 text-sm text-[#f1f5f9] placeholder-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"
-                  rows={2}
-                />
-                <Button
-                  size="sm"
-                  className="w-full bg-[#3b82f6] hover:bg-[#1e3a8a] text-white"
-                  disabled={!newComment.trim() || submitting}
-                  onClick={handleAddComment}
-                >
-                  {submitting ? 'Submitting...' : 'Submit Comment'}
-                </Button>
-              </div>
             </div>
-          </div>
-        )}
-      </SheetContent>
-    </Sheet>
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }
 
@@ -527,7 +539,7 @@ const fetchShips = async () => {
         ships={ships}
         onTaskCreated={fetchTasks}
       />
-      <TaskDetailSheet
+      <TaskDetailModal
         taskId={detailTaskId}
         open={!!detailTaskId}
         onOpenChange={(open) => !open && setDetailTaskId(null)}
