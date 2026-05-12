@@ -23,7 +23,7 @@ export function Navbar() {
     <header className="fixed top-0 right-0 left-60 h-16 bg-white border-b border-e2e8f0 flex items-center justify-between px-8 z-40">
       <h1 className="text-2xl font-bold text-[#1e293b]">{pageTitle}</h1>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-6">
         {/* Notifications */}
         <button className="relative text-[#64748b] hover:text-[#1e293b] transition-colors duration-200 p-2 rounded-lg hover:bg-[#f1f5f9]">
           <Bell className="w-5 h-5" />

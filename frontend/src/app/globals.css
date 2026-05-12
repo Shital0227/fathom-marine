@@ -127,4 +127,23 @@
   html {
     @apply font-sans;
   }
+
+  /* Date input styling for light mode */
+  input[type="date"],
+  input[type="time"],
+  input[type="datetime-local"] {
+    @apply bg-white border border-e2e8f0 rounded-lg px-3 py-2 text-[#1e293b];
+  }
+
+  input[type="date"]:focus,
+  input[type="time"]:focus,
+  input[type="datetime-local"]:focus {
+    @apply outline-none ring-2 ring-[#3b82f6] border-[#3b82f6];
+  }
+
+  /* Calendar picker styling */
+  input[type="date"]::webkit-calendar-picker-indicator {
+    filter: invert(0.3);
+    cursor: pointer;
+  }
 }

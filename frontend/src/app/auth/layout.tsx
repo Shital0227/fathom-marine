@@ -4,7 +4,7 @@ export default function AuthLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="bg-[#0a0f1e] min-h-screen">
+    <div className="bg-[#f8fafc] min-h-screen">
       {children}
     </div>
   )

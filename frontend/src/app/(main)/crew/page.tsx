@@ -39,7 +39,7 @@ function getStatusColor(status: string): string {
     case 'completed': return 'bg-[#10b981] text-white'
     case 'scheduled': return 'bg-[#3b82f6] text-white'
     case 'missed': return 'bg-[#ef4444] text-white'
-    default: return 'bg-[#1e2d4a] text-[#94a3b8]'
+    default: return 'bg-[#e2e8f0] text-[#64748b]'
   }
 }
 
@@ -91,7 +91,7 @@ export default function CrewPage() {
 
   if (loading) return (
     <div className="flex items-center justify-center h-64">
-      <p className="text-[#94a3b8]">Loading...</p>
+      <p className="text-[#64748b]">Loading...</p>
     </div>
   )
 
@@ -99,23 +99,23 @@ export default function CrewPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-[#f1f5f9]">
+          <h1 className="text-3xl font-bold text-[#1e293b]">
             Welcome, {user?.name || 'Crew Member'}
           </h1>
-          <p className="text-[#94a3b8] mt-2 text-sm capitalize">Track your assigned tasks and drills</p>
+          <p className="text-[#64748b] mt-2 text-sm capitalize">Track your assigned tasks and drills</p>
         </div>
-        <span className="bg-[#3b82f6] text-white px-4 py-2 rounded-lg text-sm font-semibold capitalize">
+        <span className="bg-[#3b82f6] text-white px-6 py-2 rounded-lg text-sm font-semibold capitalize">
           {user?.role}
         </span>
       </div>
 
-      <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-8">
-        <p className="text-[#94a3b8] text-xs font-semibold uppercase tracking-wide">Personal Compliance Score</p>
-        <div className="flex items-center gap-4 mt-4">
+      <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-lg p-8">
+        <p className="text-[#64748b] text-xs font-semibold uppercase tracking-wide">Personal Compliance Score</p>
+        <div className="flex items-center gap-6 mt-4">
           <p className="text-7xl font-bold" style={{ color: scoreColor }}>
             {complianceScore}%
           </p>
-          <div className="text-[#94a3b8] space-y-1">
+          <div className="text-[#64748b] space-y-1">
             <p className="text-sm">{completedTasks}/{tasks.length} Tasks Completed</p>
             <p className="text-sm">{attendedDrills}/{drills.length} Drills Attended</p>
           </div>
@@ -123,27 +123,27 @@ export default function CrewPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6">
-          <h2 className="text-lg font-bold text-[#f1f5f9] mb-6">My Tasks</h2>
+        <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-lg p-6">
+          <h2 className="text-lg font-bold text-[#1e293b] mb-6">My Tasks</h2>
           <div className="space-y-3">
             {tasks.length === 0 && (
-              <p className="text-[#94a3b8] text-sm text-center py-4">No tasks assigned</p>
+              <p className="text-[#64748b] text-sm text-center py-6">No tasks assigned</p>
             )}
             {tasks.map((task) => (
-              <div key={task.id} className="border border-[#1e2d4a] rounded-lg p-4 space-y-3">
+              <div key={task.id} className="border border-[#e2e8f0] rounded-lg p-6 space-y-3">
                 <div>
-                  <h3 className="text-sm font-semibold text-[#f1f5f9]">{task.title}</h3>
-                  <p className="text-xs text-[#94a3b8] mt-1">{task.ship_name}</p>
+                  <h3 className="text-sm font-semibold text-[#1e293b]">{task.title}</h3>
+                  <p className="text-xs text-[#64748b] mt-1">{task.ship_name}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-[#94a3b8]">
+                  <span className="text-xs text-[#64748b]">
                     {new Date(task.due_date).toLocaleDateString()}
                   </span>
                   <span className={`px-2 py-1 rounded text-xs font-semibold ${getStatusColor(task.status)}`}>
                     {task.is_overdue ? 'Overdue' : task.status.replace('_', ' ')}
                   </span>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-3">
                   {task.status === 'pending' && (
                     <Button
                       size="sm"
@@ -170,27 +170,27 @@ export default function CrewPage() {
           </div>
         </div>
 
-        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-[#f1f5f9] mb-4">Upcoming Drills</h2>
+        <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-lg p-6">
+          <h2 className="text-lg font-semibold text-[#1e293b] mb-4">Upcoming Drills</h2>
           <div className="space-y-3">
             {drills.length === 0 && (
-              <p className="text-[#94a3b8] text-sm text-center py-4">No drills assigned</p>
+              <p className="text-[#64748b] text-sm text-center py-6">No drills assigned</p>
             )}
             {drills.map((drill) => {
               const DrillIcon = DRILL_ICONS[drill.drill_type] || Flame
               return (
-                <div key={drill.id} className="border border-[#1e2d4a] rounded-lg p-4 space-y-3">
+                <div key={drill.id} className="border border-[#e2e8f0] rounded-lg p-6 space-y-3">
                   <div className="flex items-start gap-3">
-                    <div className="bg-[#1e2d4a] p-2 rounded flex-shrink-0">
+                    <div className="bg-[#e2e8f0] p-2 rounded flex-shrink-0">
                       <DrillIcon className="w-4 h-4 text-[#3b82f6]" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-sm font-semibold text-[#f1f5f9]">{drill.title}</h3>
-                      <p className="text-xs text-[#94a3b8] mt-1">{drill.ship_name}</p>
+                      <h3 className="text-sm font-semibold text-[#1e293b]">{drill.title}</h3>
+                      <p className="text-xs text-[#64748b] mt-1">{drill.ship_name}</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-[#94a3b8]">
+                    <span className="text-xs text-[#64748b]">
                       {new Date(drill.scheduled_date).toLocaleString()}
                     </span>
                     <span className={`px-2 py-1 rounded text-xs font-semibold ${getStatusColor(drill.status)}`}>

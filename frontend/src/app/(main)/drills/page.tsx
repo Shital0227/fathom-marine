@@ -48,7 +48,7 @@ function getStatusColor(status: string): string {
     case 'scheduled': return 'bg-[#3b82f6] text-white'
     case 'completed': return 'bg-[#10b981] text-white'
     case 'missed': return 'bg-[#ef4444] text-white'
-    default: return 'bg-[#1e2d4a] text-[#94a3b8]'
+    default: return 'bg-[#e2e8f0] text-[#64748b]'
   }
 }
 
@@ -98,60 +98,60 @@ const handleToggleAttendance = async (userId: string, currentAttended: boolean) 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#0f1729] border border-[#1e2d4a] max-w-2xl">
+      <DialogContent className="bg-[#ffffff] border border-[#e2e8f0] max-w-2xl">
         <DialogHeader>
-          <DialogTitle className="text-[#f1f5f9]">
+          <DialogTitle className="text-[#1e293b]">
             {loading ? 'Loading...' : drill?.title}
           </DialogTitle>
         </DialogHeader>
 
         {!loading && drill && (
-          <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-4">
+          <div className="space-y-8 max-h-[60vh] overflow-y-auto pr-4">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="bg-[#1e2d4a] p-3 rounded-lg">
+                <div className="bg-[#e2e8f0] p-3 rounded-lg">
                   <DrillIcon className="w-5 h-5 text-[#3b82f6]" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Drill Type</p>
-                  <p className="text-[#f1f5f9] font-medium mt-0.5">{DRILL_TYPES[drill.drill_type]?.label}</p>
+                  <p className="text-xs font-semibold text-[#64748b] uppercase tracking-wide">Drill Type</p>
+                  <p className="text-[#1e293b] font-medium mt-0.5">{DRILL_TYPES[drill.drill_type]?.label}</p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Ship</p>
-                  <p className="text-[#f1f5f9] mt-1">{drill.ship_name}</p>
+                  <p className="text-xs font-semibold text-[#64748b] uppercase tracking-wide">Ship</p>
+                  <p className="text-[#1e293b] mt-1">{drill.ship_name}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Scheduled</p>
-                  <p className="text-[#f1f5f9] mt-1">{new Date(drill.scheduled_date).toLocaleString()}</p>
+                  <p className="text-xs font-semibold text-[#64748b] uppercase tracking-wide">Scheduled</p>
+                  <p className="text-[#1e293b] mt-1">{new Date(drill.scheduled_date).toLocaleString()}</p>
                 </div>
               </div>
               <div>
-                <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Status</p>
+                <p className="text-xs font-semibold text-[#64748b] uppercase tracking-wide">Status</p>
                 <span className={`mt-2 inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(drill.status)}`}>
                   {drill.status}
                 </span>
               </div>
             </div>
 
-            <div className="border-t border-[#1e2d4a]">
+            <div className="border-t border-[#e2e8f0]">
               <button
                 onClick={() => setAttendanceOpen(!attendanceOpen)}
-                className="w-full flex items-center justify-between py-4 hover:bg-[#0a0f1e]/50 transition rounded-lg px-2"
+                className="w-full flex items-center justify-between py-6 hover:bg-[#f8fafc]/50 transition rounded-lg px-2"
               >
-                <h3 className="text-sm font-semibold text-[#f1f5f9]">
+                <h3 className="text-sm font-semibold text-[#1e293b]">
                   Attendance ({attendedCount}/{attendance.length})
                 </h3>
-                <span className="text-[#94a3b8] text-xs">{attendanceOpen ? '▼' : '▶'}</span>
+                <span className="text-[#64748b] text-xs">{attendanceOpen ? '▼' : '▶'}</span>
               </button>
 
               {attendanceOpen && (
                 <div className="space-y-2 pl-2 pb-2">
                   <div className="space-y-2 max-h-64 overflow-y-auto">
                     {attendance.map((person) => (
-                      <div key={person.id} className="flex items-center justify-between bg-[#0a0f1e] rounded-lg p-3 hover:border-[#1e2d4a] border border-transparent transition">
-                        <p className="text-sm text-[#f1f5f9]">{person.crew_name}</p>
+                      <div key={person.id} className="flex items-center justify-between bg-[#f8fafc] rounded-lg p-3 hover:border-[#e2e8f0] border border-transparent transition">
+                        <p className="text-sm text-[#1e293b]">{person.crew_name}</p>
                         <button onClick={() => handleToggleAttendance(person.user_id, person.attended)} className="transition-colors hover:text-[#3b82f6]">
                           {person.attended
                             ? <Check className="w-5 h-5 text-[#10b981]" />
@@ -161,7 +161,7 @@ const handleToggleAttendance = async (userId: string, currentAttended: boolean) 
                       </div>
                     ))}
                     {attendance.length === 0 && (
-                      <p className="text-sm text-[#94a3b8] text-center py-4">No crew assigned</p>
+                      <p className="text-sm text-[#64748b] text-center py-6">No crew assigned</p>
                     )}
                   </div>
                 </div>
@@ -217,52 +217,52 @@ function ScheduleDrillDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#0f1729] border border-[#1e2d4a]">
+      <DialogContent className="bg-[#ffffff] border border-[#e2e8f0]">
         <DialogHeader>
-          <DialogTitle className="text-[#f1f5f9]">Schedule Drill</DialogTitle>
+          <DialogTitle className="text-[#1e293b]">Schedule Drill</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 mt-4">
           {error && (
-            <div className="bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
+            <div className="bg-red-500/10 border border-red-500/20 rounded-lg px-6 py-3">
               <p className="text-red-400 text-sm">{error}</p>
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-medium text-[#94a3b8] mb-1">Title</label>
+            <label className="block text-sm font-medium text-[#64748b] mb-1">Title</label>
             <input
               type="text"
               placeholder="Drill title"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg px-3 py-2 text-[#f1f5f9] placeholder-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"
+              className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-lg px-3 py-2 text-[#1e293b] placeholder-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#94a3b8] mb-1">Drill Type</label>
+            <label className="block text-sm font-medium text-[#64748b] mb-1">Drill Type</label>
             <Select value={formData.drillType} onValueChange={(v) => setFormData({ ...formData, drillType: v })}>
-              <SelectTrigger className="bg-[#0a0f1e] border border-[#1e2d4a] text-[#f1f5f9]">
+              <SelectTrigger className="bg-[#f8fafc] border border-[#e2e8f0] text-[#1e293b]">
                 <SelectValue placeholder="Select type" />
               </SelectTrigger>
-              <SelectContent className="bg-[#0f1729] border border-[#1e2d4a]">
+              <SelectContent className="bg-[#ffffff] border border-[#e2e8f0]">
                 {Object.entries(DRILL_TYPES).map(([key, { label }]) => (
-                  <SelectItem key={key} value={key} className="text-[#f1f5f9]">{label}</SelectItem>
+                  <SelectItem key={key} value={key} className="text-[#1e293b]">{label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#94a3b8] mb-1">Ship</label>
+            <label className="block text-sm font-medium text-[#64748b] mb-1">Ship</label>
             <Select value={formData.shipId} onValueChange={(v) => setFormData({ ...formData, shipId: v })}>
-              <SelectTrigger className="bg-[#0a0f1e] border border-[#1e2d4a] text-[#f1f5f9]">
+              <SelectTrigger className="bg-[#f8fafc] border border-[#e2e8f0] text-[#1e293b]">
                 <SelectValue placeholder="Select ship" />
               </SelectTrigger>
-              <SelectContent className="bg-[#0f1729] border border-[#1e2d4a]">
+              <SelectContent className="bg-[#ffffff] border border-[#e2e8f0]">
                 {ships.map((ship) => (
-                  <SelectItem key={ship.id} value={ship.id} className="text-[#f1f5f9]">
+                  <SelectItem key={ship.id} value={ship.id} className="text-[#1e293b]">
                     {ship.name} ({ship.registration_number})
                   </SelectItem>
                 ))}
@@ -272,21 +272,21 @@ function ScheduleDrillDialog({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-[#94a3b8] mb-1">Date</label>
+              <label className="block text-sm font-medium text-[#64748b] mb-1">Date</label>
               <input
                 type="date"
                 value={formData.date}
                 onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                className="w-full bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg px-3 py-2 text-[#f1f5f9] focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"
+                className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-lg px-3 py-2 text-[#1e293b] focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#94a3b8] mb-1">Time</label>
+              <label className="block text-sm font-medium text-[#64748b] mb-1">Time</label>
               <input
                 type="time"
                 value={formData.time}
                 onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                className="w-full bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg px-3 py-2 text-[#f1f5f9] focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"
+                className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-lg px-3 py-2 text-[#1e293b] focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"
               />
             </div>
           </div>
@@ -336,12 +336,12 @@ export default function DrillsPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-[#f1f5f9]">Safety Drills</h1>
-          <p className="text-[#94a3b8] mt-2 text-sm">Schedule and track emergency response drills across your fleet</p>
+          <h1 className="text-3xl font-bold text-[#1e293b]">Safety Drills</h1>
+          <p className="text-[#64748b] mt-2 text-sm">Schedule and track emergency response drills across your fleet</p>
         </div>
         <Button
           onClick={() => setScheduleDrillOpen(true)}
-          className="bg-[#3b82f6] hover:bg-[#1e3a8a] text-white flex items-center gap-2 whitespace-nowrap"
+          className="bg-[#3b82f6] hover:bg-[#1e3a8a] text-white flex items-center gap-3 whitespace-nowrap"
         >
           <Plus className="w-4 h-4" />
           Schedule Drill
@@ -349,36 +349,36 @@ export default function DrillsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6 hover:border-[#3b82f6]/50 transition-colors">
-          <p className="text-[#94a3b8] text-xs font-semibold uppercase tracking-wide">Total Drills</p>
-          <p className="text-4xl font-bold text-[#f1f5f9] mt-4">{totalDrills}</p>
+        <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-lg p-6 hover:border-[#3b82f6]/50 transition-colors">
+          <p className="text-[#64748b] text-xs font-semibold uppercase tracking-wide">Total Drills</p>
+          <p className="text-4xl font-bold text-[#1e293b] mt-4">{totalDrills}</p>
         </div>
-        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6 hover:border-[#3b82f6]/50 transition-colors">
-          <p className="text-[#94a3b8] text-xs font-semibold uppercase tracking-wide">Upcoming</p>
+        <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-lg p-6 hover:border-[#3b82f6]/50 transition-colors">
+          <p className="text-[#64748b] text-xs font-semibold uppercase tracking-wide">Upcoming</p>
           <p className="text-4xl font-bold text-[#3b82f6] mt-4">{upcomingDrills}</p>
         </div>
-        <div className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6 hover:border-[#10b981]/50 transition-colors">
-          <p className="text-[#94a3b8] text-xs font-semibold uppercase tracking-wide">Completion Rate</p>
+        <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-lg p-6 hover:border-[#10b981]/50 transition-colors">
+          <p className="text-[#64748b] text-xs font-semibold uppercase tracking-wide">Completion Rate</p>
           <p className="text-4xl font-bold text-[#10b981] mt-4">{completionRate}%</p>
         </div>
       </div>
 
       {loading ? (
-        <div className="text-center py-8 text-[#94a3b8]">Loading...</div>
+        <div className="text-center py-8 text-[#64748b]">Loading...</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {drills.map((drill) => {
             const DrillIcon = DRILL_TYPES[drill.drill_type]?.icon || Flame
             return (
-              <div key={drill.id} className="bg-[#0f1729] border border-[#1e2d4a] rounded-lg p-6 space-y-4 hover:border-[#3b82f6]/50 transition-all duration-200 cursor-pointer group">
+              <div key={drill.id} className="bg-[#ffffff] border border-[#e2e8f0] rounded-lg p-6 space-y-4 hover:border-[#3b82f6]/50 transition-all duration-200 cursor-pointer group">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3 flex-1">
-                    <div className="bg-[#1e2d4a] group-hover:bg-[#3b82f6]/20 p-2.5 rounded-lg transition-colors">
+                    <div className="bg-[#e2e8f0] group-hover:bg-[#3b82f6]/20 p-2.5 rounded-lg transition-colors">
                       <DrillIcon className="w-5 h-5 text-[#3b82f6]" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-[#f1f5f9] text-sm">{drill.title}</h3>
-                      <p className="text-xs text-[#94a3b8] mt-1">{drill.ship_name}</p>
+                      <h3 className="font-semibold text-[#1e293b] text-sm">{drill.title}</h3>
+                      <p className="text-xs text-[#64748b] mt-1">{drill.ship_name}</p>
                     </div>
                   </div>
                   <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ml-2 flex-shrink-0 ${getStatusColor(drill.status)}`}>
@@ -386,8 +386,8 @@ export default function DrillsPage() {
                   </span>
                 </div>
 
-                <div className="border-t border-[#1e2d4a] pt-4 space-y-3">
-                  <p className="text-xs text-[#94a3b8]">
+                <div className="border-t border-[#e2e8f0] pt-4 space-y-3">
+                  <p className="text-xs text-[#64748b]">
                     {new Date(drill.scheduled_date).toLocaleString()}
                   </p>
                   <p className="text-xs text-[#3b82f6] font-medium">
@@ -406,7 +406,7 @@ export default function DrillsPage() {
             )
           })}
           {drills.length === 0 && (
-            <div className="col-span-3 text-center py-8 text-[#94a3b8]">
+            <div className="col-span-3 text-center py-8 text-[#64748b]">
               No drills found
             </div>
           )}

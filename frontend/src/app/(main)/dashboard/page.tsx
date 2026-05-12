@@ -85,12 +85,12 @@ export default function DashboardPage() {
         <h2 className="text-lg font-bold text-[#1e293b] mb-6">Recent Activity</h2>
         <div className="space-y-4">
           {stats?.recentActivity.length === 0 && (
-            <p className="text-[#64748b] text-sm py-4 text-center">No recent activity</p>
+            <p className="text-[#64748b] text-sm py-6 text-center">No recent activity</p>
           )}
           {stats?.recentActivity.map((activity, i) => (
             <div
               key={i}
-              className="flex items-center gap-4 pb-4 border-b border-e2e8f0 last:border-b-0 last:pb-0 hover:bg-[#f8fafc] px-2 py-2 rounded transition-colors"
+              className="flex items-center gap-6 pb-4 border-b border-e2e8f0 last:border-b-0 last:pb-0 hover:bg-[#f8fafc] px-2 py-2 rounded transition-colors"
             >
               <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${activity.type === 'task' ? 'bg-[#3b82f6]' : 'bg-green-600'}`} />
               <div className="flex-1">

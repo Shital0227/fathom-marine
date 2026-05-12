@@ -44,14 +44,14 @@ export function Sidebar() {
     <aside className="fixed left-0 top-0 h-screen w-60 bg-white border-r border-e2e8f0 flex flex-col">
       {/* Logo */}
       <div className="p-8 border-b border-e2e8f0">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <Anchor className="w-8 h-8 text-[#3b82f6]" />
           <span className="text-lg font-bold text-[#1e293b]">Fathom Marine</span>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto px-4 py-8 space-y-2">
+      <nav className="flex-1 overflow-y-auto px-6 py-8 space-y-2">
         {navItems.map((item: NavLink) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -60,7 +60,7 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`flex items-center gap-3 px-6 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
                 isActive
                   ? 'bg-[#3b82f6] text-white shadow-md shadow-[#3b82f6]/20'
                   : 'text-[#64748b] hover:bg-[#f1f5f9] hover:text-[#1e293b]'
@@ -75,7 +75,7 @@ export function Sidebar() {
 
       {/* User Section */}
 <div className="border-t border-e2e8f0 p-6 space-y-4">
-  <div className="bg-[#f8fafc] rounded-lg p-4 border border-e2e8f0">
+  <div className="bg-[#f8fafc] rounded-lg p-6 border border-e2e8f0">
     <div className="flex items-center gap-3 mb-3">
       <div className="w-10 h-10 rounded-lg bg-[#3b82f6] flex items-center justify-center text-white font-bold text-sm">
         {initials || (isLoading ? '..' : '?')}
@@ -94,7 +94,7 @@ export function Sidebar() {
 
   <Button
     onClick={handleLogout}
-    className="w-full justify-start gap-2 bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 font-medium h-10 transition-colors duration-200"
+    className="w-full justify-start gap-3 bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 font-medium h-10 transition-colors duration-200"
   >
     <LogOut className="w-4 h-4" />
     Logout
