@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { Bell } from 'lucide-react';
 import { useState } from 'react';
+import { useUser } from '@/hooks/useUser';
 
 const pageNames: { [key: string]: string } = {
   '/dashboard': 'Dashboard',
@@ -16,6 +17,8 @@ const pageNames: { [key: string]: string } = {
 export function Navbar() {
   const pathname = usePathname();
   const [notificationCount] = useState(3);
+  
+    const { user, initials, isLoading } = useUser();
 
   const pageTitle = pageNames[pathname] || 'Dashboard';
 
@@ -36,7 +39,7 @@ export function Navbar() {
 
         {/* User Avatar */}
         <div className="w-10 h-10 rounded-full bg-[#3b82f6] flex items-center justify-center text-[#f1f5f9] font-bold cursor-pointer hover:ring-2 hover:ring-[#1e3a8a] transition">
-          JD
+         {initials || (isLoading ? '..' : '?')}
         </div>
       </div>
     </header>

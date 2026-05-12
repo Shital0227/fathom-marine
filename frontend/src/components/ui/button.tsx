@@ -58,8 +58,11 @@ function Button({
       data-size={size}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
+      suppressHydrationWarning
     />
   )
 }
+
+Button.displayName = "Button"
 
 export { Button, buttonVariants }

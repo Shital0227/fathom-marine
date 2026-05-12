@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist } from 'next/font/google'
-import { Sidebar } from '@/components/shared/Sidebar'
-import { Navbar } from '@/components/shared/Navbar'
-import { LayoutContent } from '@/components/shared/LayoutContent'
 import './globals.css'
+import { Toaster } from 'sonner'
 
 const geist = Geist({ subsets: ['latin'] })
 
@@ -20,9 +18,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-[#0a0f1e]">
       <body className={`${geist.className} antialiased bg-[#0a0f1e] text-[#f1f5f9]`}>
-        <Sidebar />
-        <Navbar />
-        <LayoutContent>{children}</LayoutContent>
+        {children}
+         <Toaster 
+          position="top-right"
+          theme="dark"
+          toastOptions={{
+            style: {
+              background: '#0f1729',
+              border: '1px solid #1e2d4a',
+              color: '#f1f5f9'
+            }
+          }}
+        />
       </body>
     </html>
   )
